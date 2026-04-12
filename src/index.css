@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Lato:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap');
+
+@theme {
+  --color-cream: hsl(44 42% 96%);
+  --color-gold: hsl(42 78% 44%);
+  --color-gold-light: hsl(46 80% 62%);
+  --color-gold-dark: hsl(38 88% 32%);
+  --color-sage: hsl(155 28% 37%);
+  --color-sage-light: hsl(160 30% 72%);
+  --color-lemon: hsl(50 95% 55%);
+  --color-terracotta: hsl(20 55% 55%);
+  --color-ink: hsl(28 18% 16%);
+  --color-mist: hsl(45 20% 85%);
+  --color-cream-deep: hsl(40 32% 91%);
+}
+
+:root {
+  --cream: hsl(44 42% 96%);
+  --gold: hsl(42 78% 44%);
+  --gold-light: hsl(46 80% 62%);
+  --gold-dark: hsl(38 88% 32%);
+  --sage: hsl(155 28% 37%);
+  --sage-light: hsl(160 30% 72%);
+  --lemon: hsl(50 95% 55%);
+  --terracotta: hsl(20 55% 55%);
+  --ink: hsl(28 18% 16%);
+  --mist: hsl(45 20% 85%);
+  --cream-deep: hsl(40 32% 91%);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Lato', system-ui, sans-serif;
+  --font-accent: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* ── Shimmer sweep — gold foil on display text ── */
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* ── Gold foil shimmer class — apply to headings and eyebrows ── */
+.shimmer-gold {
+  background: linear-gradient(
+    90deg,
+    var(--gold-dark) 0%,
+    var(--gold-light) 30%,
+    var(--gold) 50%,
+    var(--gold-light) 70%,
+    var(--gold-dark) 100%
+  );
+  background-size: 300% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 5s ease infinite;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Paper grain texture overlay — adds warmth to all cream surfaces ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.04;
+}
+
+input, textarea {
+  font-family: var(--font-body);
+}
