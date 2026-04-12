@@ -1,7 +1,11 @@
 // EventDetails.tsx — RTL vertical timeline, 3 milestones
+// Wedding-specific icons: champagne coupe, chuppah arch, dancing couple
 // 19:30 קבלת פנים | 20:30 חופה | 21:15 מסיבה
 import { motion } from 'framer-motion'
 import SectionWrapper from '../../shared/SectionWrapper'
+import OrnamentalRule from '../../shared/OrnamentalRule'
+
+const BRAND_EASE: [number, number, number, number] = [0.77, 0, 0.175, 1]
 
 const EVENTS = [
   {
@@ -9,11 +13,12 @@ const EVENTS = [
     title: 'קבלת פנים',
     description: 'אורחים מתקבלים, שתיה ומנות פתיחה',
     icon: (
+      /* Champagne coupe */
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
-        stroke="var(--gold-dark)" strokeWidth="1.5" strokeLinecap="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+        stroke="var(--gold-dark)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 4h14c0 5-3.2 9-7 9S5 9 5 4z" />
+        <path d="M12 13v6" />
+        <path d="M8 21h8" />
       </svg>
     ),
   },
@@ -22,9 +27,14 @@ const EVENTS = [
     title: 'חופה',
     description: 'טקס הנישואין',
     icon: (
+      /* Chuppah arch — two pillars, curved draped top, base platform */
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
-        stroke="var(--gold-dark)" strokeWidth="1.5" strokeLinecap="round">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+        stroke="var(--gold-dark)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 20V9" />
+        <path d="M20 20V9" />
+        <path d="M4 9 Q12 4 20 9" />
+        <path d="M8 20h8" />
+        <path d="M12 9v5" />
       </svg>
     ),
   },
@@ -33,31 +43,39 @@ const EVENTS = [
     title: 'מסיבה',
     description: 'ארוחה, ריקודים ואירוע',
     icon: (
+      /* Dancing couple — two figures, arms raised */
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
-        stroke="var(--gold-dark)" strokeWidth="1.5" strokeLinecap="round">
-        <path d="M9 18V5l12-2v13" />
-        <circle cx="6" cy="18" r="3" />
-        <circle cx="18" cy="16" r="3" />
+        stroke="var(--gold-dark)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="7.5" cy="4" r="1.8" />
+        <path d="M7.5 6v4.5L5 15M7.5 10.5l2.5 3.5" />
+        <path d="M5.5 8.5h4" />
+        <circle cx="16.5" cy="4" r="1.8" />
+        <path d="M16.5 6v4.5L19 15M16.5 10.5l-2.5 3.5" />
+        <path d="M14.5 8.5h4" />
       </svg>
     ),
   },
 ]
 
 export default function EventDetails() {
+  // Icon column width — used for gold line positioning
+  const ICON_SIZE = 56
+  const ICON_OFFSET = ICON_SIZE / 2  // 28px — center of icon bubble
+
   return (
     <section style={{
       padding: '5rem 1.5rem',
       backgroundColor: 'var(--cream-deep)',
     }}>
       <SectionWrapper direction="left">
-        <p style={{
+        <p className="shimmer-gold" style={{
           textAlign: 'center',
-          color: 'var(--gold)',
-          letterSpacing: '0.3em',
-          fontSize: '0.75rem',
+          letterSpacing: '0.32em',
+          fontSize: '0.72rem',
           fontWeight: 300,
           fontFamily: 'var(--font-body)',
           marginBottom: '0.5rem',
+          textTransform: 'uppercase',
         }}>
           סדר הערב
         </p>
@@ -68,28 +86,30 @@ export default function EventDetails() {
           color: 'var(--ink)',
           fontStyle: 'italic',
           fontWeight: 400,
-          marginBottom: '3.5rem',
+          marginBottom: '1.5rem',
         }}>
           לוח הזמנים
         </h2>
+        <OrnamentalRule opacity={0.45} style={{ marginBottom: '3rem' }} />
 
-        <div style={{ maxWidth: '420px', margin: '0 auto', position: 'relative' }}>
-          {/* Vertical gold line — draws in on scroll */}
+        <div style={{ maxWidth: '440px', margin: '0 auto', position: 'relative' }}>
+
+          {/* ── Vertical gold line — draws in on scroll ── */}
           <motion.div
             style={{
               position: 'absolute',
-              top: '28px',
-              bottom: '28px',
-              right: '27px',
+              top: `${ICON_OFFSET}px`,
+              bottom: `${ICON_OFFSET}px`,
+              right: `${ICON_OFFSET - 0.5}px`,   // center on icon bubble
               width: '1px',
               backgroundColor: 'var(--gold)',
-              opacity: 0.4,
+              opacity: 0.35,
               transformOrigin: 'top',
               scaleY: 0,
             }}
             whileInView={{ scaleY: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 1.4, ease: BRAND_EASE }}
           />
 
           {EVENTS.map((event, i) => (
@@ -98,14 +118,14 @@ export default function EventDetails() {
                 display: 'flex',
                 alignItems: 'flex-start',
                 gap: '1.25rem',
-                marginBottom: i < EVENTS.length - 1 ? '2.5rem' : 0,
+                marginBottom: i < EVENTS.length - 1 ? '2.75rem' : 0,
                 position: 'relative',
               }}>
                 {/* Icon bubble */}
                 <div style={{
                   flexShrink: 0,
-                  width: '56px',
-                  height: '56px',
+                  width: `${ICON_SIZE}px`,
+                  height: `${ICON_SIZE}px`,
                   borderRadius: '50%',
                   border: '1.5px solid var(--gold)',
                   backgroundColor: 'var(--cream)',
@@ -114,16 +134,17 @@ export default function EventDetails() {
                   justifyContent: 'center',
                   position: 'relative',
                   zIndex: 1,
+                  boxShadow: '0 0 0 4px var(--cream-deep)',  // halo to separate from gold line
                 }}>
                   {event.icon}
                 </div>
 
                 {/* Content */}
-                <div style={{ paddingTop: '0.6rem', flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '0.3rem' }}>
+                <div style={{ paddingTop: '0.65rem', flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '0.3rem', flexWrap: 'wrap' }}>
                     <span style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: '1.4rem',
+                      fontSize: '1.35rem',
                       color: 'var(--gold-dark)',
                       fontWeight: 500,
                     }}>
@@ -131,7 +152,7 @@ export default function EventDetails() {
                     </span>
                     <span style={{
                       fontFamily: 'var(--font-display)',
-                      fontSize: '1.1rem',
+                      fontSize: '1.05rem',
                       color: 'var(--ink)',
                       fontStyle: 'italic',
                       fontWeight: 400,
@@ -142,9 +163,9 @@ export default function EventDetails() {
                   <p style={{
                     fontFamily: 'var(--font-body)',
                     color: 'var(--sage)',
-                    fontSize: '0.9rem',
+                    fontSize: '0.88rem',
                     fontWeight: 300,
-                    lineHeight: 1.5,
+                    lineHeight: 1.55,
                   }}>
                     {event.description}
                   </p>

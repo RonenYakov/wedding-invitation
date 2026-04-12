@@ -1,9 +1,9 @@
 // Envelope.tsx — full-screen wedding envelope
 // Wax seal: golden amber wax + watercolor lemon illustration — Amalfi old-money style
 // Font: Cormorant Garamond italic
+// onOpen prop: called after seal click; App.tsx handles burst overlay + navigation
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import BackgroundMusic from '../shared/BackgroundMusic'
 
 const CX = 200   // seal center x — crease intersection
@@ -14,20 +14,20 @@ const sealBreath = {
   transition: { duration: 4.2, repeat: Infinity, ease: 'easeInOut' as const },
 }
 
-export default function Envelope() {
-  const navigate  = useNavigate()
-  const [clicked, setClicked]       = useState(false)
-  const [burst,   setBurst]         = useState(false)
+interface Props {
+  onOpen: () => void
+}
+
+export default function Envelope({ onOpen }: Props) {
+  const [clicked, setClicked]           = useState(false)
   const [triggerMusic, setTriggerMusic] = useState(false)
 
   const handleOpen = () => {
     if (clicked) return
     setClicked(true)
     setTriggerMusic(true)
-    setTimeout(() => {
-      setBurst(true)
-      setTimeout(() => navigate('/invitation'), 750)
-    }, 550)
+    // Short delay lets the seal scale animation start before the burst fires
+    setTimeout(() => onOpen(), 300)
   }
 
   return (
@@ -108,11 +108,11 @@ export default function Envelope() {
 
           {/* ── Golden amber wax seal ── */}
           <radialGradient id="wax" cx="32%" cy="26%" r="74%">
-            <stop offset="0%"   stopColor="#F8D858" />  {/* warm bright highlight */}
-            <stop offset="16%"  stopColor="#DCA018" />  {/* rich amber */}
-            <stop offset="44%"  stopColor="#A87010" />  {/* deep amber */}
-            <stop offset="74%"  stopColor="#6A4206" />  {/* dark brown */}
-            <stop offset="100%" stopColor="#2C1A00" />  {/* near-black edge */}
+            <stop offset="0%"   stopColor="#F8D858" />
+            <stop offset="16%"  stopColor="#DCA018" />
+            <stop offset="44%"  stopColor="#A87010" />
+            <stop offset="74%"  stopColor="#6A4206" />
+            <stop offset="100%" stopColor="#2C1A00" />
           </radialGradient>
           <radialGradient id="wax-glow" cx="50%" cy="50%" r="50%">
             <stop offset="0%"   stopColor="#DCA018" stopOpacity="0.30" />
@@ -236,9 +236,7 @@ export default function Envelope() {
           <g filter="url(#soft)">
             <g transform="rotate(-15, 191, 147)">
               <ellipse cx="191" cy="147" rx="16" ry="10.5" fill="url(#lem1)" />
-              {/* Left nipple */}
               <ellipse cx="175" cy="147" rx="3" ry="2.5" fill="#C08808" />
-              {/* Right nipple */}
               <ellipse cx="207" cy="147" rx="2.5" ry="2" fill="#C08808" />
             </g>
           </g>
@@ -327,23 +325,6 @@ export default function Envelope() {
           transition={{ delay: 1.9, duration: 0.8 }}
         />
       </motion.div>
-
-      {/* ── Burst ── */}
-      <AnimatePresence>
-        {burst && (
-          <motion.div
-            style={{
-              position: 'fixed', inset: 0,
-              background: 'radial-gradient(circle at center, hsl(44 60% 98%) 0%, hsl(42 38% 95%) 60%)',
-              pointerEvents: 'none',
-              zIndex: 100,
-            }}
-            initial={{ scale: 0.3, opacity: 0 }}
-            animate={{ scale: 5,   opacity: 1 }}
-            transition={{ duration: 0.7, ease: 'easeIn' }}
-          />
-        )}
-      </AnimatePresence>
 
       <BackgroundMusic triggerPlay={triggerMusic} />
     </motion.div>
