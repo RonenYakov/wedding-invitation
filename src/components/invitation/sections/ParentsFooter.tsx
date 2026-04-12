@@ -1,9 +1,9 @@
 // ParentsFooter.tsx — parents section + footer
-// ⚠️  Update GROOM_FAMILY and BRIDE_FAMILY with actual names
+
 import SectionWrapper from '../../shared/SectionWrapper'
 
-const GROOM_FAMILY = 'משפחת [שם חתן]'
-const BRIDE_FAMILY  = 'משפחת [שם כלה]'
+const GROOM_FAMILY = "משפחת משה"
+const BRIDE_FAMILY = "משפחת בסה"
 
 export default function ParentsFooter() {
   return (
@@ -12,6 +12,27 @@ export default function ParentsFooter() {
       background: 'linear-gradient(180deg, var(--cream) 0%, hsl(45 35% 90%) 100%)',
     }}>
       <SectionWrapper>
+        {/* נשמח לראותכם - כותרת פתיחה */}
+        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <p style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
+            color: 'var(--ink)',
+            fontStyle: 'italic',
+            fontWeight: 400,
+            marginBottom: '1rem',
+          }}>
+            נשמח לראותכם
+          </p>
+          <div style={{
+            width: '40px',
+            height: '1px',
+            backgroundColor: 'var(--gold)',
+            margin: '0 auto',
+            opacity: 0.6
+          }} />
+        </div>
+
         {/* Top gold rule */}
         <div style={{ height: '1px', backgroundColor: 'var(--gold)', opacity: 0.35, marginBottom: '3.5rem' }} />
 
@@ -52,17 +73,7 @@ export default function ParentsFooter() {
         {/* Bottom gold rule */}
         <div style={{ height: '1px', backgroundColor: 'var(--gold)', opacity: 0.35, marginBottom: '2.5rem' }} />
 
-        {/* Footer */}
-        <p style={{
-          textAlign: 'center',
-          fontFamily: 'var(--font-body)',
-          fontWeight: 300,
-          color: 'var(--sage)',
-          fontSize: '0.8rem',
-          letterSpacing: '0.2em',
-        }}>
-          נוצר באהבה ✦
-        </p>
+        {/* כאן היה הטקסט "נוצר באהבה" והוא הוסר בהצלחה */}
       </SectionWrapper>
     </section>
   )
