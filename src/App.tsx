@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
+import { ReactLenis } from 'lenis/react'
 import Envelope from './components/envelope/Envelope'
 import Invitation from './components/invitation/Invitation'
 
@@ -55,8 +56,17 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AnimatedRoutes />
-    </BrowserRouter>
+    <ReactLenis
+      root
+      options={{
+        lerp: 0.09,
+        smoothWheel: true,
+        syncTouch: false,     // keep native iOS/Android momentum
+      }}
+    >
+      <BrowserRouter>
+        <AnimatedRoutes />
+      </BrowserRouter>
+    </ReactLenis>
   )
 }

@@ -2,6 +2,7 @@
 // Assembles all sections, sets RTL direction on root
 // Entry: opacity 1 (no fade-in — burst transition in App.tsx handles the reveal)
 // Fixed: gold scroll progress bar + T&B monogram watermark (bottom-right)
+import { ReactNode } from 'react'
 import { motion, useScroll } from 'framer-motion'
 import Hero from './sections/Hero'
 import Countdown from './sections/Countdown'
@@ -10,6 +11,23 @@ import Venue from './sections/Venue'
 import Gallery from './sections/Gallery'
 import ParentsFooter from './sections/ParentsFooter'
 import BackgroundMusic from '../shared/BackgroundMusic'
+
+const BRAND_EASE: [number, number, number, number] = [0.77, 0, 0.175, 1]
+
+// ── Section-level entrance: scale 0.97→1, fade in; re-triggers on re-entry ──
+function SectionReveal({ children }: { children: ReactNode }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.97 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: false, amount: 0.12 }}
+      transition={{ duration: 0.85, ease: BRAND_EASE }}
+      style={{ willChange: 'transform' }}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 // ── T&B monogram watermark — very low opacity, persistent brand mark ──
 function MonogramWatermark() {
@@ -73,11 +91,11 @@ export default function Invitation() {
       />
 
       <Hero />
-      <Countdown />
-      <EventDetails />
-      <Venue />
-      <Gallery />
-      <ParentsFooter />
+      <SectionReveal><Countdown /></SectionReveal>
+      <SectionReveal><EventDetails /></SectionReveal>
+      <SectionReveal><Venue /></SectionReveal>
+      <SectionReveal><Gallery /></SectionReveal>
+      <SectionReveal><ParentsFooter /></SectionReveal>
 
       <MonogramWatermark />
       <BackgroundMusic triggerPlay={true} />

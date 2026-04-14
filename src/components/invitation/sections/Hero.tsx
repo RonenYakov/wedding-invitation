@@ -19,7 +19,7 @@ export default function Hero() {
     <div ref={ref} style={{ height: '100vh', position: 'relative', overflow: 'hidden' }}>
 
       {/* ── Parallax video background ── */}
-      <motion.div style={{ y: bgY, position: 'absolute', inset: 0 }}>
+      <motion.div style={{ y: bgY, position: 'absolute', inset: 0, willChange: 'transform' }}>
         <video
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           autoPlay loop muted playsInline preload="metadata"
@@ -40,7 +40,7 @@ export default function Hero() {
       }} />
 
       {/* ── Editorial content — absolute positioning ── */}
-      <motion.div style={{ y: contentY, position: 'absolute', inset: 0, zIndex: 10 }}>
+      <motion.div style={{ y: contentY, position: 'absolute', inset: 0, zIndex: 10, willChange: 'transform' }}>
 
         {/* Hebrew eyebrow — top-center */}
         <motion.p
